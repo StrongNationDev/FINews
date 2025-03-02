@@ -1,8 +1,25 @@
 const API_KEY = "2d1dd424c3a5469b942faa5256113037";
 const NEWS_API_URL = `https://newsapi.org/v2/everything?q=finance OR money OR earnings OR sales OR business&language=en&sortBy=publishedAt&apiKey=${API_KEY}`;
 
+//function fetchNews() {
+ //   fetch(NEWS_API_URL)
+     //   .then(response => response.json())
+     //   .then(data => {
+        //    if (data.status === "ok") {
+           //     displayNews(data.articles);
+        //    } else {
+             //   console.error("Failed to fetch news:", data);
+       //     }
+     //   })
+    //    .catch(error => console.error("Error fetching news:", error));
+//}
+
+
+// Use a CORS Proxy (ONLY if needed)
+const CORS_PROXY = "https://cors-anywhere.herokuapp.com/"; 
+
 function fetchNews() {
-    fetch(NEWS_API_URL)
+    fetch(CORS_PROXY + NEWS_API_URL)  // Use proxy to avoid CORS issues
         .then(response => response.json())
         .then(data => {
             if (data.status === "ok") {
@@ -13,6 +30,9 @@ function fetchNews() {
         })
         .catch(error => console.error("Error fetching news:", error));
 }
+
+
+
 
 function displayNews(articles) {
     const newsList = document.querySelector(".news-list");
