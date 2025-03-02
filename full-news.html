@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Details</title>
+    <link rel="stylesheet" href="news-details.css">
+</head>
+<body>
+    <header>
+        <h1>Financial Independence News</h1>
+    </header>
+
+    <main>
+        <button class="back-button" onclick="goToHome()">← Back</button>
+
+        <article class="news-container">
+            <h2 id="news-title">Loading...</h2>
+            <div class="news-content">
+                <h3 id="news-subtitle">Loading...</h3>
+                <p id="news-description">Loading...</p>
+                <img id="news-image" src="news-image.jpg" alt="News Image">
+                <p><i>Source: <span id="news-source"></span></i></p>
+                <button id="full-news-button" class="read-full-button">Read Full News</button>
+            </div>
+            <button class="like-button" onclick="likePost()">❤️ <span id="like-count">0</span></button>
+        </article>
+    </main>
+
+    <div class="ads-container">
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+        <div class="banner-ad">Banner ad</div>
+    </div>
+
+    
+
+    <script>
+        function goToHome() {
+            window.location.href = "index.html";
+        }
+
+        function loadNewsDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const articleIndex = params.get("article");
+
+            if (articleIndex === null) {
+                document.querySelector(".news-container").innerHTML = "<h2>News not found.</h2>";
+                return;
+            }
+
+            const newsArticles = JSON.parse(localStorage.getItem("newsArticles"));
+            if (!newsArticles || !newsArticles[articleIndex]) {
+                document.querySelector(".news-container").innerHTML = "<h2>News not found.</h2>";
+                return;
+            }
+
+            const article = newsArticles[articleIndex];
+
+            document.getElementById("news-title").textContent = article.title;
+            document.getElementById("news-subtitle").textContent = article.title;
+            document.getElementById("news-description").textContent = 
+                article.content ? article.content.replace(/\[\+\d+ chars\]/, "...") : article.description;
+            document.getElementById("news-image").src = article.urlToImage || "news-image.jpg";
+            document.getElementById("news-source").textContent = article.source.name;
+
+            // Set the full news button link
+            document.getElementById("full-news-button").onclick = function() {
+                window.open(article.url, "_blank"); // Opens the full news in a new tab
+            };
+
+            // Load likes from localStorage
+            const likes = JSON.parse(localStorage.getItem("newsLikes")) || {};
+            document.getElementById("like-count").textContent = likes[articleIndex] || 0;
+        }
+
+        function likePost() {
+            const params = new URLSearchParams(window.location.search);
+            const articleIndex = params.get("article");
+
+            if (articleIndex === null) return;
+
+            const likes = JSON.parse(localStorage.getItem("newsLikes")) || {};
+            likes[articleIndex] = (likes[articleIndex] || 0) + 1;
+
+            localStorage.setItem("newsLikes", JSON.stringify(likes));
+            document.getElementById("like-count").textContent = likes[articleIndex];
+        }
+
+        loadNewsDetails();
+    </script>
+
+<script src="adss.js"></script>
+
+</body>
+</html>
+
