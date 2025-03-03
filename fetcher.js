@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://your-backend.onrender.com"; // Replace with your Render backend URL
+const BACKEND_URL = "https://finewsserver.onrender.com"; // Replace with your Render backend URL
 
 function fetchNews() {
     fetch(`${BACKEND_URL}/news`) // Use backend proxy
